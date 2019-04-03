@@ -4,21 +4,22 @@ import './App.css';
 
 class App extends Component {
   constructor(props) {
-    super(props)
-    this.state = ({
-      ID: 0
-    })
+    super(props);
+    this.state = {
+      workIdent: '0'
+    }
     
      this.getWorkerID = this.getWorkerID.bind(this);
      this.showWorkerID = this.showWorkerID.bind(this);
   }
 
-  getWorkerID(event) {
-    this.setState = ({ ID: event.target.value });    
+  getWorkerID(event)  {
+    console.log('change detected ' + event.target.value)
+    this.setState = ({ workIdent: event.target.value });    
   }
 
   showWorkerID() {
-   console.log(`worker ID ${this.state.ID}`)
+   console.log(`worker ID is ${this.state.workIdent}`)
   }
   render() {
     return (
