@@ -10,15 +10,19 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      workIdent: '',
+      createName: '',
       createID: '',
-      createName: ''
+      confirmID: '',
+      workIdent: ''
     }
 
     this.getWorkerID = this.getWorkerID.bind(this);
-    this.showWorkerID = this.showWorkerID.bind(this);
+    this.logIn = this.logIn.bind(this);
     this.getCreatedID = this.getCreatedID.bind(this);
     this.getCreatedName = this.getCreatedName.bind(this);
+    this.confirmID = this.confirmID.bind(this);
+    this.addUser = this.addUser.bind(this);
+
   }
 
   getWorkerID(event) {
@@ -27,7 +31,7 @@ class App extends Component {
     this.setState({ workIdent: event.target.value });
   }
 
-  showWorkerID() {
+  logIn() {
     //  console.log(`worker ID is ${this.state.workIdent}`)
   }
 
@@ -37,6 +41,20 @@ class App extends Component {
 
   getCreatedID(event) {
     this.setState({createID: event.target.value})
+  }
+
+  confirmID(event) {
+    this.setState({confirmID: event.target.value})
+
+  }
+
+  addUser() {
+    // console.log(this.state.createID, this.state.confirmID)
+    if (this.state.createID === this.state.confirmID) {
+      console.log(`your ID is confirmed`);
+    } else {
+      alert(`Your ID does not match`);
+    }
   }
 
 
@@ -54,7 +72,7 @@ class App extends Component {
                   <div className="input-group mb-3">
                     <input onChange={this.getWorkerID} type="number" className="form-control" aria-describedby="basic-addon2" />
                     <div className="input-group-append">
-                      <button onClick={this.showWorkerID} id="submitID" className="btn btn-outline-secondary" type="button"> <Link to='/createworker'> create User</Link></button>
+                      <button onClick={this.logIn} id="submitID" className="btn btn-outline-secondary" type="button"> <Link to='/createworker'> create User</Link></button>
                     </div>
                   </div>
                 </div>
@@ -68,14 +86,19 @@ class App extends Component {
                 <div>
 
                   <h2> Create Worker Account</h2>
-                  <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" class="form-control" id="Name" />
+                  <div className="form-group">
+                    <label htmlFor="name">Name:</label>
+                    <input onChange={this.getCreatedName} type="text" className="form-control" id="Name" />
                   </div>
-                  <div class="form-group">
-                    <label for="createID">Create ID:</label>
-                    <input type="number" maxLength='6' class="form-control" id="createID" />
+                  <div className="form-group">
+                    <label htmlFor="createID">Create ID:</label>
+                    <input onChange={this.getCreatedID} type="number" maxLength='6' className="form-control" id="createID" />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="confirmID">Confirm ID:</label>
+                    <input onChange={this.confirmID} type="number" maxLength='6' className="form-control" id="createID" />
+                  </div>
+                  <button onClick={this.addUser}>click to create new account!</button>
                 </div>
               )
             }
