@@ -6,6 +6,7 @@ import './App.css';
 var Route = require('react-router-dom').Route;
 
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +14,10 @@ class App extends Component {
       createName: '',
       createID: '',
       confirmID: '',
-      workIdent: ''
+      workIdent: '',
+      passedName: false,
+      passedID: false,
+      passedNewPage: false
     }
 
     this.getWorkerID = this.getWorkerID.bind(this);
@@ -22,8 +26,12 @@ class App extends Component {
     this.getCreatedName = this.getCreatedName.bind(this);
     this.confirmID = this.confirmID.bind(this);
     this.addUser = this.addUser.bind(this);
+    this.confirmInfo = this.confirmInfo.bind(this);
 
   }
+
+
+
 
   getWorkerID(event) {
     // console.log('change detected ' + event.target.value);
@@ -31,31 +39,104 @@ class App extends Component {
     this.setState({ workIdent: event.target.value });
   }
 
+
   logIn() {
     //  console.log(`worker ID is ${this.state.workIdent}`)
   }
 
   getCreatedName(event) {
-    this.setState({createName: event.target.value});
+    this.setState({ createName: event.target.value });
   }
 
   getCreatedID(event) {
-    this.setState({createID: event.target.value})
+    this.setState({ createID: event.target.value })
   }
 
   confirmID(event) {
-    this.setState({confirmID: event.target.value})
+    this.setState({ confirmID: event.target.value })
 
   }
+
+  confirmInfo() {
+    const addButton = document.createElement('button')
+    addButton.innerHTML= 'Create User'
+    const removeButton = document.getElementById('removeButton')
+
+
+    switch (this.state.createID === this.state.confirmID) {
+
+      case true:
+
+        console.log(`yes`)
+        this.setState({ passedID: true })
+        break;
+
+      default:
+        alert(`Your IDs do not match!`);
+        break;
+
+    }
+
+    switch (this.state.createName.length > 1) {
+      case true:
+        console.log(`name success`);
+        this.setState({ 
+          passedName: true,
+         });
+        break;
+
+      default:
+        alert(`please enter a valid Name`);
+        break;
+    }
+    
+    switch (this.state.passedID && this.state.passedName){
+      case true: 
+      
+    }
+
+    
+    document.getElementById('confirmButton').appendChild(addButton);
+    removeButton.parentNode.removeChild(removeButton);
+    
+
+
+    // if (this.state.createID === this.state.confirmID) {
+    //   this.setState ({
+    //     passedID: true
+    //   });
+    //   console.log(`your ID is confirmed`);
+    // } else {
+    //   alert(`Your ID does not match`);
+    // }
+
+    // if(this.state.createName.length < 2) {
+    //   alert(`please enter your name!`)
+    // } else {
+    //   this.setState({
+    //     passedName: true
+    //   })
+    //   console.log(`your name is confirmed`);
+    // }
+
+    // if(this.state.passedID === true && this.state.passedName === true){
+    //   console.log(`${this.state.passedName}  ${this.state.passedID}`)
+    //   this.setState({
+    //     passedNewPage: true
+    //   });
+    // } else {
+    //   console.log(`${this.state.passedName}  ${this.state.passedID}`)
+    //   console.log('fail')
+    // }
+
+
+  };
 
   addUser() {
-    // console.log(this.state.createID, this.state.confirmID)
-    if (this.state.createID === this.state.confirmID) {
-      console.log(`your ID is confirmed`);
-    } else {
-      alert(`Your ID does not match`);
-    }
+
+
   }
+
 
 
   render() {
@@ -72,7 +153,8 @@ class App extends Component {
                   <div className="input-group mb-3">
                     <input onChange={this.getWorkerID} type="number" className="form-control" aria-describedby="basic-addon2" />
                     <div className="input-group-append">
-                      <button onClick={this.logIn} id="submitID" className="btn btn-outline-secondary" type="button"> <Link to='/createworker'> create User</Link></button>
+                      <button onClick={this.logIn} id="submitID" className="btn btn-outline-secondary" type="button"> <Link to='/'> Log In</Link></button>
+                      <button onClick={this.logIn} id="submitID" className="btn btn-outline-secondary" type="button"> <Link to='/createworker'> Create User</Link></button>
                     </div>
                   </div>
                 </div>
@@ -85,7 +167,7 @@ class App extends Component {
               return (
                 <div>
 
-                  <h2> Create Worker Account</h2>
+                  <h2> <Link to='/'> Create Worker Account</Link></h2>
                   <div className="form-group">
                     <label htmlFor="name">Name:</label>
                     <input onChange={this.getCreatedName} type="text" className="form-control" id="Name" />
@@ -98,11 +180,15 @@ class App extends Component {
                     <label htmlFor="confirmID">Confirm ID:</label>
                     <input onChange={this.confirmID} type="number" maxLength='6' className="form-control" id="createID" />
                   </div>
-                  <button onClick={this.addUser}>click to create new account!</button>
+                  <div id='confirmButton'>
+                  <button  id='removeButton' onClick={this.confirmInfo}>Confirm Information</button>
+                  {/* <button>click to create new account!</button> */}
+                </div>
                 </div>
               )
             }
           } />
+
         </div>
       </Router>
     );
